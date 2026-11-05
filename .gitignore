@@ -1,0 +1,7 @@
+*.jar
+*.zip
+*.p12
+*.pfx
+*.key
+.env
+players.yml
