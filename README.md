@@ -1,5 +1,3 @@
-<p align="center"><img src="assets/axiomglyph-banner.svg" alt="AxiomGlyph — Minecraft localization in the Axiom suite" width="100%"></p>
-
 # AxiomGlyph documentation
 
 **[Read the AxiomGlyph Wiki](https://github.com/kwasadom/AxiomGlyph-docs/wiki)** — installation, commands, translations and server administration.
