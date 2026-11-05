@@ -43,6 +43,8 @@ have been verified. Folia 26.3 is an upstream Alpha build.
 
 ## Project status
 
+Current private plugin version: **1.0.0**. No plugin jar is published here.
+
 AxiomGlyph is under active development. This documentation describes the current
 development snapshot, not a released product. Source and binary distribution
 terms are separate from this documentation; proprietary release review remains

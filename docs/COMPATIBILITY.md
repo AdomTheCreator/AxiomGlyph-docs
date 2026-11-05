@@ -1,6 +1,8 @@
 # Compatibility and local test results
 
-Test date: **2026-11-05**. Plugin development snapshot: **0.1.0-SNAPSHOT**.
+Test date: **2026-11-05**. Current private version: **1.0.0**.
+The checks below were run before the version-only rename; no runtime behavior
+was changed by assigning version 1.0.0.
 PacketEvents **2.14.0** and PlaceholderAPI **2.12.3** were installed in each
 isolated server. Minecraft listeners and editor HTTP listeners were bound to
 loopback. Each server used a new disposable world; the production server was
