@@ -2,6 +2,8 @@
 
 # AxiomGlyph documentation
 
+**[Read the AxiomGlyph Wiki](https://github.com/kwasadom/AxiomGlyph-docs/wiki)** — installation, commands, translations and server administration.
+
 Write server translations in YAML or in a browser, then choose the language
 shown to each player. AxiomGlyph is part of the **Axiom** suite and does not use
 machine translation.
