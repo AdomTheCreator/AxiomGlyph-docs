@@ -3,7 +3,7 @@
 ## Start here
 
 1. [Install and configure](INSTALLATION.md)
-2. [Commands and permissions](COMMANDS.md)
+2. [Commands and permissions](COMMANDS.md) · [Permission reference](PERMISSIONS.md)
 3. [Write translation keys](PLACEHOLDERS.md)
 4. [Open the web editor](WEB-EDITOR.md)
 

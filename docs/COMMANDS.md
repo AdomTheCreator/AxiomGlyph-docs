@@ -1,5 +1,7 @@
 # Commands and permissions
 
+See [Permissions](PERMISSIONS.md) for defaults, LuckPerms examples and editor access scope.
+
 | Command | Purpose | Permission |
 | --- | --- | --- |
 | `/ag language` | Open the player language selector | `axiomglyph.use` |

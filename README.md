@@ -16,6 +16,7 @@ jar files remain private. There is no public plugin download or release yet.
 - [Documentation home](docs/README.md)
 - [Installation](docs/INSTALLATION.md)
 - [Commands and permissions](docs/COMMANDS.md)
+- [Permissions and LuckPerms examples](docs/PERMISSIONS.md)
 - [Placeholders](docs/PLACEHOLDERS.md)
 - [Web editor](docs/WEB-EDITOR.md)
 - [Compatibility and local test results](docs/COMPATIBILITY.md)
