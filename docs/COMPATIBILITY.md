@@ -42,6 +42,10 @@ the choice surviving reconnect all passed. The Folia players were teleported
 to X=10000 and X=30000; entity-scheduled operations and simultaneous editor
 changes completed without thread-access errors.
 
+An additional Folia 1.21.11 run verified opening the selector through
+the real player command, clicking the English option and the scheduled
+inventory close, followed by the same packet and reconnect checks.
+
 Paper 26.1.2 was exercised through the compatible 26.1 protocol supported by
 the client test library. Native 26.3 clients were not simulated because that
 library does not yet include the 26.3 protocol.
