@@ -92,3 +92,15 @@ save rather than assuming the disk write completes inside the player command.
 
 Read [Text coverage](TEXT-SURFACES.md) for feature-specific limits and
 [Maintenance](MAINTENANCE.md) for persistence and restore behavior.
+
+## Startup console fix — 2026-11-06
+
+A subsequent console initialization fix was verified on Purpur 26.3 build 2655,
+Paper 1.21 build 130 and Folia 1.21.11 build 14. A STARTUP-phase test plugin
+emitted keys before AxiomGlyph enabled; both console output and the UTF-8 log
+resolved them using console.language=it_IT while the player default was en_US.
+Plugin logger output, console sender output, PAPI-form keys and unknown-key
+preservation passed. The old build reproduced the startup problem. Preference
+worker startup is deferred until enable and its lifecycle/persistence checks
+also passed. The eight-server matrix above describes the earlier implementation;
+this targeted regression did not repeat every player test on every server.

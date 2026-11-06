@@ -65,11 +65,13 @@ console:
   language: en_US
 ```
 
-Once the plugin is enabled, explicit `{{loc:key|argument}}` and
+From AxiomGlyph's load phase, explicit `{{loc:key|argument}}` and
 `%axiomglyph_key%` tokens passing through the root Log4j logger are resolved in
 this language. Formatting becomes plain text, while log metadata and exceptions
 are preserved. Unknown keys remain visible. Ordinary log text and exception
-stack traces are not machine-translated. Logs emitted before enable are unchanged.
+stack traces are not machine-translated. Messages emitted before AxiomGlyph loads are not rewritten.
+The hook is installed before normal plugin enable messages, so other plugins'
+startup keys can be resolved even if they enable before AxiomGlyph.
 
 Run `/ag language reload` after changing console configuration. Editor changes
 to translations update the console snapshot when saved.
