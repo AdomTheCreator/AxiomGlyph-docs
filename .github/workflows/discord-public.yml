@@ -1,0 +1,72 @@
+name: Public Discord updates
+
+on:
+  push:
+    branches: [main]
+    paths-ignore: ['.github/**']
+  gollum:
+  release:
+    types: [published]
+  workflow_dispatch:
+
+permissions: {}
+
+jobs:
+  notify:
+    if: github.repository == 'AdomTheCreator/AxiomGlyph-docs'
+    runs-on: ubuntu-latest
+    timeout-minutes: 2
+    steps:
+      - name: Publish public documentation news
+        env:
+          DISCORD_WEBHOOK: ${{ secrets.DISCORD_PUBLIC_WEBHOOK }}
+        run: |
+          node --input-type=module <<'NODE'
+          import fs from 'node:fs';
+
+          function makePayload(eventName, event) {
+            if (event.repository?.full_name !== 'AdomTheCreator/AxiomGlyph-docs' || event.repository.private !== false) {
+              throw new Error('Only the public documentation repository may publish here.');
+            }
+            const home = 'https://github.com/AdomTheCreator/AxiomGlyph-docs';
+            let title = 'AxiomGlyph documentation updated';
+            let description = `The public documentation has been updated.\n[Read the Wiki](${home}/wiki)`;
+            let url = home + '/wiki';
+            if (eventName === 'gollum') {
+              const pages = (event.pages || []).slice(0, 8).map(page => {
+                if (!page.html_url?.startsWith(home + '/wiki/')) throw new Error('Unexpected Wiki destination.');
+                return `• [${String(page.title).replace(/[\[\]\\]/g, '')}](${page.html_url})`;
+              });
+              description = 'Updated public guides:\n' + pages.join('\n');
+            } else if (eventName === 'release') {
+              if (event.release?.draft || !event.release?.html_url?.startsWith(home + '/releases/')) throw new Error('Expected a published public announcement.');
+              title = String(event.release.name || event.release.tag_name || 'AxiomGlyph news').slice(0, 256);
+              description = String(event.release.body || 'A public AxiomGlyph update is available.').slice(0, 3500);
+              url = event.release.html_url;
+            } else if (eventName === 'workflow_dispatch') {
+              title = 'AxiomGlyph updates connected';
+              description = 'This channel receives public AxiomGlyph news and documentation updates. Source updates stay in the private development channel.';
+            } else if (eventName !== 'push') {
+              throw new Error('Unsupported notification event.');
+            }
+            return { allowed_mentions: { parse: [] }, embeds: [{ title, description, url, color: 6805190, footer: { text: 'AxiomGlyph • Public updates' } }] };
+          }
+
+          try {
+            const event = JSON.parse(fs.readFileSync(process.env.GITHUB_EVENT_PATH, 'utf8'));
+            const payload = makePayload(process.env.GITHUB_EVENT_NAME, event);
+            const hook = new URL(process.env.DISCORD_WEBHOOK || '');
+            if (hook.protocol !== 'https:' || hook.hostname !== 'discord.com' || !/^\/api(?:\/v\d+)?\/webhooks\/\d+\/[^/]+$/.test(hook.pathname)) throw new Error('Missing or invalid Discord webhook.');
+            const metadata = await fetch(hook, { signal: AbortSignal.timeout(15000) });
+            if (!metadata.ok) throw new Error('Webhook lookup failed.');
+            const target = await metadata.json();
+            if (target.guild_id !== '1437466684167422124' || target.channel_id !== '1568697548355412059') throw new Error('Webhook must target the public AxiomGlyph channel in Adom’s World.');
+            hook.searchParams.set('wait', 'true');
+            const response = await fetch(hook, { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify(payload), signal: AbortSignal.timeout(15000) });
+            if (!response.ok) throw new Error('Discord rejected the notification.');
+            console.log('Public Discord update delivered.');
+          } catch {
+            console.error('Public Discord update failed. Check the configured webhook and channel; no private source data was read.');
+            process.exitCode = 1;
+          }
+          NODE
